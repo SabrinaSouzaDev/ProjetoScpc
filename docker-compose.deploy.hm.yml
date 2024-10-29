@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+
+  frontend:
+    env_file:
+      - .env
+    image: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}-${DOCKER_IMAGE_TAG}
+    restart: always
+    networks:
+      - traefik-public
+    environment:
+      - TZ=America/Belem
+    deploy:
+      placement:
+        constraints:
+          - node.labels.solar-hm == true
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik-public"
+        - "traefik.constraint-label=traefik-public"
+
+        - "traefik.http.routers.${CI_PROJECT_NAME}_hm.rule=Host(`${DOMAIN_APPLICATION}`) && PathPrefix(`${BASE_PATH}`)"
+        - "traefik.http.routers.${CI_PROJECT_NAME}_hm.entrypoints=http"
+
+        - "traefik.http.routers.${CI_PROJECT_NAME}_hm_https.rule=Host(`${DOMAIN_APPLICATION}`) && PathPrefix(`${BASE_PATH}`)"
+        - "traefik.http.routers.${CI_PROJECT_NAME}_hm_https.entrypoints=https"
+        - "traefik.http.routers.${CI_PROJECT_NAME}_hm_https.tls=true"
+        - "traefik.http.routers.${CI_PROJECT_NAME}_hm_https.tls.certresolver={}"
+        - "traefik.http.routers.${CI_PROJECT_NAME}_hm_https.middlewares=default-headers@file"
+        - "traefik.http.services.${CI_PROJECT_NAME}_hm_https.loadbalancer.server.port=80"
+
+networks:
+  traefik-public:
+    external: true

@@ -1,0 +1,213 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 202 52% 49%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 142.1 76.2% 36.3%;
+    --radius: 0.5rem;
+    /*  */
+    --light: hsl(215 50% 95.29%);
+    --dark: hsl(216 11.63% 8.43%);
+    --darker: hsl(220 5.08% 11.57%);
+    /*  */
+    --color-primary: var(--color-cyan);
+    --color-primary-50: var(--color-cyan-50);
+    --color-primary-100: var(--color-cyan-100);
+    --color-primary-light: var(--color-cyan-light);
+    --color-primary-lighter: var(--color-cyan-lighter);
+    --color-primary-dark: var(--color-cyan-dark);
+    --color-primary-darker: var(--color-cyan-darker);
+    /*  */
+    --color-green: hsl(142.13 76.22% 36.27%);
+    --color-green-50: hsl(138.46 76.47% 96.67%);
+    --color-green-100: hsl(140.63 84.21% 92.55%);
+    --color-green-light: hsl(142.09 70.56% 45.29%);
+    --color-green-lighter: hsl(141.89 69.16% 58.04%);
+    --color-green-dark: hsl(142.43 71.81% 29.22%);
+    --color-green-darker: hsl(142.78 64.23% 24.12%);
+    /*  */
+    --color-blue: hsl(221.21 83.19% 53.33%);
+    --color-blue-50: hsl(213.75 100% 96.86%);
+    --color-blue-100: hsl(214.29 94.59% 92.75%);
+    --color-blue-light: hsl(217.22 91.22% 59.8%);
+    --color-blue-lighter: hsl(213.12 93.9% 67.84%);
+    --color-blue-dark: hsl(224.28 76.33% 48.04%);
+    --color-blue-darker: hsl(225.93 70.73% 40.2%);
+    /*  */
+    --color-cyan: hsl(191.65 91.4% 36.47%);
+    --color-cyan-50: hsl(183.16 100% 96.27%);
+    --color-cyan-100: hsl(185.11 95.92% 90.39%);
+    --color-cyan-light: hsl(188.74 94.5% 42.75%);
+    --color-cyan-lighter: hsl(187.94 85.71% 53.33%);
+    --color-cyan-dark: hsl(192.92 82.28% 30.98%);
+    --color-cyan-darker: hsl(194.38 69.57% 27.06%);
+    /*  */
+    --color-teal: hsl(174.67 83.85% 31.57%);
+    --color-teal-50: hsl(166.15 76.47% 96.67%);
+    --color-teal-100: hsl(167.23 85.45% 89.22%);
+    --color-teal-light: hsl(173.41 80.39% 40%);
+    --color-teal-lighter: hsl(172.46 66.01% 50.39%);
+    --color-teal-dark: hsl(175.34 77.44% 26.08%);
+    --color-teal-darker: hsl(176.1 69.37% 21.76%);
+    /*  */
+    --color-fuchsia: hsl(293.41 69.48% 48.82%);
+    --color-fuchsia-50: hsl(289.09 100% 97.84%);
+    --color-fuchsia-100: hsl(286.96 100% 95.49%);
+    --color-fuchsia-light: hsl(292.19 84.08% 60.59%);
+    --color-fuchsia-lighter: hsl(292.03 91.43% 72.55%);
+    --color-fuchsia-dark: hsl(294.69 72.41% 39.8%);
+    --color-fuchsia-darker: hsl(295.42 70.24% 32.94%);
+    /*  */
+    --color-violet: hsl(262.12 83.26% 57.84%);
+    --color-violet-50: hsl(250 100% 97.65%);
+    --color-violet-100: hsl(251.43 91.3% 95.49%);
+    --color-violet-light: hsl(258.31 89.53% 66.27%);
+    --color-violet-lighter: hsl(255.14 91.74% 76.27%);
+    --color-violet-dark: hsl(263.39 69.96% 50.39%);
+    --color-violet-darker: hsl(263.36 69.3% 42.16%);
+  }
+
+  .dark {
+    --background: 199, 19%, 8%;
+    --foreground: 0 0% 95%;
+    --card: 24 9.8% 5%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 202 52% 45.3%;
+    --primary-foreground: 144.9 80.4% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 12 6.5% 15.1%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 142.4 71.8% 29.2%;
+  }
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f0f0f0; /* Cor de fundo da barra de rolagem */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #888; /* Cor da barra de rolagem */
+    border-radius: 5px; /* Raio da borda da barra de rolagem */
+    border: 1px solid #D6D6D6; /* Bordas da barra de rolagem */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1 {
+    @apply text-4xl
+  }
+  h2 {
+    @apply text-3xl
+  }
+  h3 {
+    @apply text-2xl
+  }
+  h4 {
+    @apply text-xl
+  }
+  h5 {
+    @apply text-lg
+  }
+  h6 {
+    @apply text-base
+  }
+
+  .overflow-y-auto{
+    overflow-y: auto;
+  }
+  
+  .overflow-x-auto {
+    overflow-x: auto;
+  }
+  .overflow-y-auto::-webkit-scrollbar
+  .overflow-auto::-webkit-scrollbar {
+    width: 3px; /* Ajuste a largura da barra de rolagem */
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-track
+  .overflow-auto::-webkit-scrollbar-track {
+    background: transparent
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-thumb
+  .overflow-auto::-webkit-scrollbar-thumb {
+    background-color: #363636; /* Cor da barra de rolagem */
+    border-radius: 20px; /* Raio da borda da barra de rolagem */
+    border: 1px solid transparent; /* Bordas da barra de rolagem */
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-thumb:hover 
+  .overflow-auto::-webkit-scrollbar-thumb:hover {
+    background-color: #070C119C; /* Cor da barra de rolagem ao passar o mouse */
+  }
+  .overflow-y-auto-color {
+    overflow-y: auto;
+  }
+  
+  .overflow-x-auto-color {
+    overflow-x: auto;
+  }
+  
+  .overflow-y-auto-color::-webkit-scrollbar,
+  .overflow-x-auto-color::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  
+  .overflow-y-auto-color::-webkit-scrollbar-track,
+  .overflow-x-auto-color::-webkit-scrollbar-track {
+    background: transparent; /* Fundo translúcido */
+  }
+  
+  .overflow-y-auto-color::-webkit-scrollbar-thumb,
+  .overflow-x-auto-color::-webkit-scrollbar-thumb {
+    background: rgba(100 100 100 / 0.44); /* Cor para o thumb */
+    border-radius: 5px;
+    border: 1px solid transparent; /* Bordas da barra de rolagem */
+  }
+  
+  .overflow-y-auto-color::-webkit-scrollbar-thumb:hover,
+  .overflow-x-auto-color::-webkit-scrollbar-thumb:hover {
+    background: rgba(155 155 155 / 0.43); /* Mais visível ao passar o mouse */
+  }
+}
