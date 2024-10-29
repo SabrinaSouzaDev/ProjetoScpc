@@ -3,15 +3,15 @@ import { useDataTable } from '@/hooks/useDataTable'
 import { DataTableFilterField } from '@/types'
 import React from 'react'
 import { getColumnsListEscala } from './ListEscalaColumns '
-import { EscalaPlantao } from '../TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
+import { EscalaGetResponse } from '../TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
 
 type ListaConsultaProps = {
-  selectedRows: EscalaPlantao[]
+  selectedRows: EscalaGetResponse[]
 }
 
 export function ListaEscalaEdit({ selectedRows }: ListaConsultaProps) {
   const columns = React.useMemo(() => getColumnsListEscala(), [])
-  const filterFields: DataTableFilterField<EscalaPlantao>[] = []
+  const filterFields: DataTableFilterField<EscalaGetResponse>[] = []
 
   const { table } = useDataTable({
     data: selectedRows,

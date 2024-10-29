@@ -53,7 +53,9 @@ export function CustomerCombobox<T extends ListItem>({
 
   // Exibir o nome correto com base no tipo de dado
   const displayName = selectedItem ? getLabel(selectedItem) : value
-
+  // const displayNew = selectedItem
+  //   ? selectedItem.nome || selectedItem.pessoa?.nomeCompleto
+  //   : selecTitle
   function handleChangeSelectValue(newValue: string) {
     setOpen(false)
     setValue(newValue)

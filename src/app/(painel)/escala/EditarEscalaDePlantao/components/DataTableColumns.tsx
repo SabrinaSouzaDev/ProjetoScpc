@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button'
 import { Pen } from '@phosphor-icons/react'
 import { ColumnDef } from '@tanstack/react-table'
 import AdicionarEscalaFiel from './FormEscala/AdicionarEscalaFiel'
-import { EscalaPlantao } from './TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
+import { EscalaGetResponse } from './TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
 
-export function getColumnsEscala(): ColumnDef<EscalaPlantao>[] {
+export function getColumnsEscala(): ColumnDef<EscalaGetResponse>[] {
   return [
     {
       accessorKey: 'id',
@@ -46,6 +46,33 @@ export function getColumnsEscala(): ColumnDef<EscalaPlantao>[] {
       header: () => {
         return <AlignDiv>Status</AlignDiv>
       },
+      cell: (info) => (
+        <div className="text-left">{info.row.original.status}</div>
+      ),
+      footer: (props) => props.column.id,
+    },
+    {
+      accessorKey: 'escalasPlantaoDias.0.servidor.nome',
+      header: () => {
+        return <AlignDiv>Status</AlignDiv>
+      },
+      cell: (info) => (
+        <div className="text-left">
+          {info.row.original.escalasPlantaoDias?.[0].servidor?.nome}
+        </div>
+      ),
+      footer: (props) => props.column.id,
+    },
+    {
+      accessorKey: 'escalasPlantaoDias.0.dia.',
+      header: () => {
+        return <AlignDiv>Status</AlignDiv>
+      },
+      cell: (info) => (
+        <div className="text-left">
+          {info.row.original.escalasPlantaoDias?.[0].servidor?.nome}
+        </div>
+      ),
       footer: (props) => props.column.id,
     },
     {

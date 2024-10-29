@@ -12,7 +12,7 @@ import React from 'react'
 import { getColumnsEscala } from './DataTableColumns'
 // import EscalaDialogDialog from './ListaDialog/EscalaDialogDialog'
 import { consultaEditarSolicitacaoEscalaPlantao } from '@/app/services/server/EscalaPlantaoEditGet'
-import { EscalaPlantao } from './TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
+import { EscalaGetResponse } from './TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
 
 type TableProps = {
   EscalaEditPromise: ReturnType<typeof consultaEditarSolicitacaoEscalaPlantao>
@@ -20,13 +20,13 @@ type TableProps = {
 
 export function Table({ EscalaEditPromise }: TableProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [content, setContent] = React.useState<EscalaPlantao[]>([])
+  const [content, setContent] = React.useState<EscalaGetResponse[]>([])
   const [totalPages, setTotalPages] = React.useState<number>(0)
   const [totalElements, setTotalElements] = React.useState<number>(0)
   const { toast } = useToast()
   const columns = React.useMemo(() => getColumnsEscala(), [])
   // const [annexFile, setAnnexFile] = React.useState<File | null>(null)
-  const filterFields: DataTableFilterField<EscalaPlantao>[] = []
+  const filterFields: DataTableFilterField<EscalaGetResponse>[] = []
   const { table } = useDataTable({
     data: content,
     columns,

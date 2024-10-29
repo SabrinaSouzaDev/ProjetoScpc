@@ -4,7 +4,7 @@ import { UseFormReturn } from 'react-hook-form'
 import { z } from 'zod'
 import { ListaConcultaEscalaEdit } from '../ListaConcultaEscalaEdit'
 import { EscalaEditFormSchema } from '../TypeEditPlantaoEdit/EscalaFormSchema'
-import { EscalaPlantao } from '../TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
+import { EscalaGetResponse } from '../TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
 // import EscalaListFunction from '../../../EscalaDePlantaoAdmin/functions/EscalaListFunction'
 // import { EscalaPlantao } from '../../../EscalaDePlantaoAdmin/type/AprovarEscalaPlatao'
 
@@ -26,22 +26,28 @@ export default function ConfirmFormFields({
 }: ConfirmFormFields) {
   const { getValues } = form
   const uptabela = getValues() || {}
-  const dadosDias = getValues('escalasPlantaoDias') || []
-  const uptabelaMapped: EscalaPlantao[] = [
+  // const dadosDias = getValues('escalasPlantaoDias') || []
+  const uptabelaMapped: EscalaGetResponse[] = [
     {
       ...uptabela,
       id: uptabela.id,
       tipo: uptabela.tipo || '', // Garantir que `tipo` seja uma string
-      diretoria: uptabela?.diretoria?.id
+      diretoria: uptabela.diretoria
         ? { id: uptabela.diretoria.id, nome: uptabela.diretoria.nome }
-        : undefined,
-      escalasPlantaoDias:
-        dadosDias?.map((escala) => ({
-          id: escala?.id ?? 0,
-          servidorId: escala?.servidorId?.id ?? undefined,
-          servidorIdnome: escala?.servidorId?.nome ?? undefined,
-          dia: escala?.dia ?? undefined,
-        })) ?? [],
+        : null,
+      status: 'N/A',
+      escalasPlantaoDias: uptabela.escalasPlantaoDias?.length
+        ? uptabela.escalasPlantaoDias.map((escala) => ({
+            id: escala?.id ?? null,
+            servidorId: escala?.servidorId?.id ?? undefined, // Garante que seja undefined se não houver servidorId
+            relatorioDescricao: escala?.relatorioDescricao ?? undefined,
+            observacaoDia: escala?.observacaoDia ?? undefined,
+            idDia: escala?.dia?.id ?? undefined,
+          }))
+        : [],
+      nucleo: uptabela.nucleo
+        ? { id: uptabela.nucleo.id, nome: uptabela.nucleo.nome }
+        : null, // Garantir que `nucleo` seja `{ id?: number; nome?: string } | null`
     },
   ]
 

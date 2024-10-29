@@ -29,8 +29,9 @@ import { z } from 'zod'
 import { scaleOption } from '../../../cadastro/components/ScaleOptions'
 import { SelectCustomer } from '../SelectCustomer'
 import { EscalaEditFormSchema } from '../TypeEditPlantaoEdit/EscalaFormSchema'
-import { EscalaPlantao } from '../TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
+import { EscalaGetResponse } from '../TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
 import { CustomerCombobox } from './CustomerCombobox'
+import { useEffect, useState } from 'react'
 
 interface FormFieldType {
   form: UseFormReturn<z.infer<typeof EscalaEditFormSchema>>
@@ -41,7 +42,7 @@ interface FormFieldType {
   listDiretorias: Diretoria[]
   holidaysList: Holidays[]
   servidor: Servidor | null
-  initialValues: EscalaPlantao
+  initialValues: EscalaGetResponse
   handleSubmit: () => void
   handleGetBoard: (value: string) => void
   handleGetCoordination: (value: string) => void
@@ -68,10 +69,16 @@ export default function AdicionarFormField({
   // handleFindServerNameNovo
 }: FormFieldType) {
   const { control, getValues } = form
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: 'escalasPlantaoDias',
   })
+  const [isRemoveField, setIsRemoveField] = useState<boolean>(false)
+
+  function handleRemovePlantao(index: number) {
+    setIsRemoveField(true)
+    remove(index)
+  }
 
   const { errors } = form.formState
   const addEscala = () => {
@@ -83,9 +90,23 @@ export default function AdicionarFormField({
   }
 
   console.log('valores dentro do formulario', getValues())
-  // console.log('informações do efeito', replace)
+  console.log('erro', errors)
 
-  // console.log('formulario', initialValues)
+  useEffect(() => {
+    if (isRemoveField) {
+      setIsRemoveField(false)
+
+      // Obtém os valores atuais de escalasPlantaoDias e filtra valores nulos ou undefined
+      const escalasPlantaoDias = getValues('escalasPlantaoDias') || []
+      const filteredEscalas = escalasPlantaoDias.filter(Boolean)
+
+      // Atualiza o array sem itens nulos/undefined
+      if (filteredEscalas.length !== escalasPlantaoDias.length) {
+        form.setValue('escalasPlantaoDias', filteredEscalas)
+      }
+    }
+  }, [fields, isRemoveField, getValues, form.setValue])
+
   return (
     <form
       onSubmit={form.handleSubmit(handleSubmit)}
@@ -143,10 +164,13 @@ export default function AdicionarFormField({
                             Number(e),
                           )
                         }
+                        value={String(
+                          form.getValues(`escalasPlantaoDias.${index}.dia.id`),
+                        )}
                       >
                         <SelectTrigger
                           className="w-full"
-                          id={`idDia.id-${index}`}
+                          id={`dia.id-${index}`}
                         >
                           <SelectValue placeholder="Selecione a data da escala" />
                         </SelectTrigger>
@@ -154,17 +178,7 @@ export default function AdicionarFormField({
                           <SelectGroup>
                             <SelectLabel>Opções</SelectLabel>
                             {holidaysList.map((item) => (
-                              <SelectItem
-                                key={item.id}
-                                value={
-                                  String(item.id) ||
-                                  String(
-                                    form.getValues(
-                                      `escalasPlantaoDias.${index}.dia.id`,
-                                    ),
-                                  )
-                                }
-                              >
+                              <SelectItem key={item.id} value={String(item.id)}>
                                 {formatDate(item.diaNaoUtil)} -{' '}
                                 {item.tipoDiaNaoUtil.descricao}
                               </SelectItem>
@@ -190,14 +204,11 @@ export default function AdicionarFormField({
                         selecTitle="Selecione a diretoria"
                         handleClick={handleGetBoard}
                         list={listDiretorias}
-                        getLabel={(item) =>
-                          item.nome || String(form.getValues(`diretoria.nome`))
-                        }
-                        getValue={(item) =>
-                          String(item.id) ||
-                          String(form.getValues(`diretoria.id`))
-                        }
-                        initialSelected={String(form.getValues(`diretoria.id`))}
+                        getLabel={(item) => item.nome}
+                        getValue={(item) => String(item.id)}
+                        initialSelected={String(
+                          form.getValues(`diretoria.nome`),
+                        )}
                       />
                       <FormMessage className="text-[0.8em] font-bold">
                         {errors.diretoria?.id?.message}
@@ -255,11 +266,6 @@ export default function AdicionarFormField({
                               ),
                             ) ?? undefined
                           }
-                          disabled={Boolean(
-                            form.getValues(
-                              `escalasPlantaoDias.${index}.servidorId.id`,
-                            ),
-                          )} // Adicionando verificação para desabilitar
                         />
                         <FormMessage className="text-[0.8em] font-bold">
                           {errors?.escalasPlantaoDias?.[index]?.servidorId &&
@@ -270,23 +276,11 @@ export default function AdicionarFormField({
                     )}
                   />
                 ) : null}
-                {/* {servidores.length > 0 && (
-                   <div style={{ marginBottom: '0.5rem' }}>
-                    <CustomerCombobox
-                    selecTitle="Selecione o servidor"
-                    handleClick={(e) => handleFindServerName(e, index)}
-                    list={servidores}
-                    getLabel={(item) => item.pessoa.nomeCompleto}
-                    getValue={(item) => item.pessoa.nomeCompleto}
-                    // || String(form.getValues(`escalasPlantaoDias.${index}.servidorId.id`))
-                    />
-                    </div>
-                   )} */}
                 <div className="flex content-center items-center justify-end py-4">
                   <Button
                     type="button"
                     className="bg-red-700 text-white hover:bg-red-800"
-                    onClick={() => remove(index)}
+                    onClick={() => handleRemovePlantao(index)}
                   >
                     Remover Servidor
                   </Button>

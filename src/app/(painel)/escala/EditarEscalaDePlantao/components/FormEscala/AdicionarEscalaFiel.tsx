@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { updateEscalaEditRequest } from '@/app/services/client/EditEscalaPlantaoPut'
+import {
+  ApiError,
+  updateEscalaEditRequest,
+} from '@/app/services/client/EditEscalaPlantaoPut'
 import {
   consultaCoordenadoriasByDiretoria,
   consultaGerenciasByCoordenadoria,
@@ -26,13 +29,16 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { EscalaEditFormSchema } from '../TypeEditPlantaoEdit/EscalaFormSchema'
-import { EscalaPlantao } from '../TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
+import {
+  EscalaGetResponse,
+  EscalaPlantao,
+} from '../TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
 import AdicionarConfirmFormFields from './AdicionarConfirmFormFields'
 import AdicionarFormField from './AdicionarFormField'
 
 interface EscalaFormProps {
   id: number
-  initialValues: EscalaPlantao
+  initialValues: EscalaGetResponse
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -41,34 +47,37 @@ export default function EscalaEditForm({ id, initialValues }: EscalaFormProps) {
     mode: 'onBlur',
     resolver: zodResolver(EscalaEditFormSchema),
     defaultValues: {
-      id: initialValues?.id,
+      id: initialValues?.id ?? null,
       diretoria: initialValues?.diretoria?.id
         ? { id: initialValues.diretoria.id, nome: initialValues.diretoria.nome }
-        : undefined,
+        : null,
       nucleo: initialValues?.nucleo
         ? { id: initialValues.nucleo.id, nome: initialValues.nucleo.nome }
-        : undefined,
+        : null,
       gerencia: initialValues?.gerencia
-        ? { id: initialValues.gerencia.id, nome: initialValues.diretoria?.nome }
-        : undefined,
+        ? { id: initialValues.gerencia.id, nome: initialValues.gerencia.nome }
+        : null,
       tipo: initialValues?.tipo || '',
-      escalasPlantaoDias: initialValues.escalasPlantaoDias?.length
+      escalasPlantaoDias: initialValues?.escalasPlantaoDias?.length
         ? initialValues.escalasPlantaoDias.map((escala) => ({
-            id: escala.id ?? undefined,
-            servidorId: escala.servidor
-              ? { id: escala.servidor.id, nome: escala.servidor.nome }
+            id: escala.id ?? null,
+            servidor: escala.dia
+              ? { id: escala.servidor?.id, nome: escala.servidor?.nome }
               : undefined,
-            // dia: escala.dia
-            // ? {
-            //     id: escala.dia.id,
-            //     dia: escala.dia.dia,
-            //   }
-            // : undefined,
+            dia: escala.dia
+              ? {
+                  id: escala.dia?.id,
+                  dia: escala.dia?.dia,
+                }
+              : undefined,
           }))
         : [],
     },
   })
-  console.log('dados', initialValues.escalasPlantaoDias?.[0].id || 'erro vazio')
+  // console.log(
+  //   'dados',
+  //   initialValues.escalasPlantaoDias?.[0].dia?.id || 'erro vazio',
+  // )
   const [servidor, setServidor] = useState<Servidor | null>(
     form.watch('escalasPlantaoDias.0.servidorId') as Servidor,
   )
@@ -80,36 +89,7 @@ export default function EscalaEditForm({ id, initialValues }: EscalaFormProps) {
   const [holidaysList, setHolidaysList] = useState<Holidays[] | []>([])
   const [lastPage, setLastPage] = React.useState<boolean>(false)
   const { toast } = useToast()
-  console.log('dfsfsdf', id)
-  console.log('dfsfsdf', initialValues)
-  const [valueObject, setValueObject] = useState({
-    diretoriaId: 0,
-    coordenadoria: 0,
-    gerencia: 0,
-  })
-
   const { setValue, reset } = form
-
-  // const setFieldsToDefault = () => {
-  //   setCoordenadorias([])
-  //   setGerencias([])
-  //   setServidores([])
-  //   setValueObject({
-  //     coordenadoria: 0,
-  //     diretoriaId: 0,
-  //     gerencia: 0,
-  //   })
-  //   reset({
-  //     nucleo: {},
-  //     escalasPlantaoDias: [],
-  //     diretoria: {},
-  //     gerencia: {},
-  //     tipo: undefined,
-  //   })
-  // }
-
-  // Função para buscar as diretorias
-
   const fetchDirectorias = async () => {
     try {
       const directoryResponse = await consultaDiretorias()
@@ -122,7 +102,7 @@ export default function EscalaEditForm({ id, initialValues }: EscalaFormProps) {
     try {
       const holidaysResponse = await getHolidays()
       setHolidaysList(holidaysResponse)
-      console.log('dentro', holidaysList)
+      console.log('dados da api de DIAS', holidaysList)
     } catch (err) {
       ErrorMapping('Ocorreu um erro ao solicitar os dados dos feriados')
     }
@@ -225,49 +205,67 @@ export default function EscalaEditForm({ id, initialValues }: EscalaFormProps) {
   /// /////////////////// GET API
 
   async function handleSubmit(data: z.infer<typeof EscalaEditFormSchema>) {
+    if (!data.escalasPlantaoDias || !data.escalasPlantaoDias.length) {
+      return toast({
+        variant: 'destructive',
+        title: 'Erro: Nenhum dado de escala para salvar.',
+        duration: 4000,
+      })
+    }
+    const isValid = data.escalasPlantaoDias.every(
+      (dia) => dia && dia.servidorId?.id && dia.dia?.id !== undefined,
+    )
+    if (!isValid) {
+      return toast({
+        variant: 'destructive',
+        title: 'Erro: Preencha todos os campos obrigatórios antes de salvar.',
+        duration: 4000,
+      })
+    }
     const EscalaEdit: EscalaPlantao = {
       id: data.id,
-      diretoria: data.diretoria
-        ? { id: data.diretoria.id, nome: data.diretoria.nome }
-        : null,
-      gerencia: data.gerencia
-        ? { id: data.gerencia.id, nome: data.gerencia.nome }
-        : null,
-      nucleo: data.nucleo
-        ? { id: data.nucleo.id, nome: data.nucleo.nome }
-        : null,
-      tipo: data.tipo ?? '',
+      diretoriaId: data.diretoria ? data.diretoria.id : null,
+      gerenciaId: data.gerencia ? data.gerencia.id : null,
+      nucleoId: data.nucleo ? data.nucleo.id : null,
+      tipo: data.tipo,
       escalasPlantaoDias: data.escalasPlantaoDias?.length
-        ? data.escalasPlantaoDias?.map((escala) => ({
-            id: escala?.id ?? undefined,
-            servidorId: escala?.servidorId?.id ?? undefined,
+        ? data.escalasPlantaoDias.map((escala) => ({
+            id: escala?.id ?? null,
+            servidorId: escala?.servidorId?.id ?? undefined, // Garante que seja `undefined` se não houver `servidorId`
+            relatorioDescricao: escala?.relatorioDescricao ?? undefined,
+            observacaoDia: escala?.observacaoDia ?? undefined,
             idDia: escala?.dia?.id ?? undefined,
           }))
         : [],
     }
 
-    let erroTreatment
+    console.log('Dados a serem enviados:', EscalaEdit)
+
     try {
       const response = await updateEscalaEditRequest(EscalaEdit)
+      console.log('Resposta da API:', response)
+
       if (response !== 'SUCCESS_UPDATE') {
-        erroTreatment = ErrorMapping(response.technicalMessage)
-        throw new Error(`Response status: ${response.status}`)
+        throw new Error(response?.technicalMessage || 'Erro na atualização.')
       }
 
       toast({
-        title: 'Dados financeiro atualizados com sucesso',
+        title: 'Dados da escala atualizados com sucesso',
         duration: 3000,
       })
-      // setFieldsToDefault()
     } catch (err) {
+      console.error('Erro ao atualizar escala:', err)
+      const apiError = err as ApiError
+      const errorMessage = ErrorMapping(
+        apiError.message || 'Erro ao realizar solicitação',
+      )
       toast({
         variant: 'destructive',
-        title: erroTreatment || 'Erro ao realizar solicitação',
+        title: errorMessage,
         duration: 4000,
       })
     }
   }
-
   // // CHAMADA DE RESPOSTA API
   async function handleDiretoria(selectedDiretoria: Diretoria) {
     form.setValue('diretoria', selectedDiretoria)

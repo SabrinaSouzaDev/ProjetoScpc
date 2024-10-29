@@ -1,43 +1,30 @@
 import { EscalaPlantao } from '@/app/(painel)/escala/EditarEscalaDePlantao/components/TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
-import { handleError } from '@/utils/ErrorMensage'
 import { scpcApiFetchClient } from './config'
+export interface ApiError {
+  message: string
+  technicalMessage?: string
+  internalCode?: string
+}
 
-export async function updateEscalaEditRequest(curso: EscalaPlantao) {
+export async function updateEscalaEditRequest(escala: EscalaPlantao) {
   try {
-    const formData = new FormData()
-    formData.append('id', curso.id.toString())
-    formData.append('gerenciaId', curso.gerencia?.id?.toString() || '')
-    formData.append('nucleoId', curso.nucleo?.id.toString() || '')
-    formData.append('diretoriaId', curso.diretoria?.id.toString() || '')
-    formData.append('tipo', curso.tipo || '')
-
-    // Aqui você pode iterar sobre as escalas se houver mais de uma
-    curso.escalasPlantaoDias?.forEach((dia) => {
-      formData.append(
-        'escalasPlantaoDias[]',
-        JSON.stringify({
-          id: dia.id?.toString() || '',
-          servidorId: dia.servidor?.id?.toString() || '',
-          relatorioDescricao: dia.relatorioDescricao || '',
-          observacaoDia: dia.observacaoDia || '',
-          idDia: dia.dia?.id?.toString() || '',
-        }),
-      )
-    })
-
     const resp: Response = await scpcApiFetchClient(`/escala-plantao`, {
-      method: 'POST',
+      method: 'PUT',
       cache: 'no-cache',
-      body: formData,
+      body: JSON.stringify(escala),
       headers: {
-        Accept: '*/*',
+        'content-type': 'application/json;charset=UTF-8',
       },
     })
 
-    await handleError(resp)
+    if (!resp.ok) {
+      const errorData = await resp.json()
+      throw new Error(errorData?.technicalMessage || 'Erro desconhecido')
+    }
+
     return resp.json()
   } catch (error) {
-    console.error('Erro ao salvar curso:', error)
-    return null
+    console.error('Erro ao salvar escala:', error)
+    throw error
   }
 }

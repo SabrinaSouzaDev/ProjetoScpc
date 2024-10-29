@@ -6,15 +6,15 @@ import { Label } from '@/components/ui/label'
 // import defaultReloadPage from '@/utils/reload'
 import { Table } from '@tanstack/react-table'
 import React from 'react'
-import { EscalaPlantao } from '../TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
+import { EscalaGetResponse } from '../TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
 import { ListaEscalaEdit } from './ListaEscalaEdit'
 
 export type financialDialogProps = {
-  data: EscalaPlantao[]
-  table: Table<EscalaPlantao>
+  data: EscalaGetResponse[]
+  table: Table<EscalaGetResponse>
   isDisabled?: boolean
   isSubmitting?: boolean
-  confirmRequest: (selectedRows: EscalaPlantao[]) => Promise<void>
+  confirmRequest: (selectedRows: EscalaGetResponse[]) => Promise<void>
   handleFileChange: React.ChangeEventHandler<HTMLInputElement>
   annexFile: File | null
 }
@@ -32,7 +32,7 @@ export default function FinancialDialog({
 
   const selectedRows = Object.keys(table.getState().rowSelection)
     .map((key) => data.find((row, index) => index === Number(key)))
-    .filter((row): row is EscalaPlantao => row !== undefined)
+    .filter((row): row is EscalaGetResponse => row !== undefined)
 
   function handleChangePage() {
     setLastPage(!lastPage)
@@ -45,8 +45,8 @@ export default function FinancialDialog({
     selectedRows.some(
       (row) =>
         !row.escalasPlantaoDias?.[0].id ||
-        !row.escalasPlantaoDias[0].servidor ||
-        !row.escalasPlantaoDias[0].relatorioDescricao,
+        !row.escalasPlantaoDias[0].servidor?.id ||
+        !row.escalasPlantaoDias[0].dia?.id,
     )
 
   const handleConfirm = async () => {

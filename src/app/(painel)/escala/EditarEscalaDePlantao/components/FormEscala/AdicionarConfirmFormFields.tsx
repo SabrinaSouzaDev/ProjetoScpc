@@ -83,18 +83,18 @@ export default function AdicionarConfirmFormFields({
                 >
                   <td className="border-b px-4 py-2 text-gray-900 dark:text-gray-300">
                     <div className=" text-gray-900 dark:text-white">
-                      {escala.servidorId?.id}
+                      {escala?.servidorId?.id}
                     </div>
                   </td>
 
                   <td className="border-b px-4 py-2 text-gray-900 dark:text-gray-300">
                     <div className=" text-gray-900 dark:text-white">
-                      {escala.servidorId?.nome}
+                      {escala?.servidorId?.nome}
                     </div>
                   </td>
                   <td className="border-b px-4 py-2 text-gray-900 dark:text-gray-300">
                     <div className=" text-gray-900 dark:text-white">
-                      {escala.dia?.id}
+                      {escala?.dia?.id}
                     </div>
                   </td>
                 </tr>

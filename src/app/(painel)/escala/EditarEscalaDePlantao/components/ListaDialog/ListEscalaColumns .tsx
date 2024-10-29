@@ -1,8 +1,8 @@
 import { AlignDiv } from '@/components/AlignDiv'
 import { ColumnDef } from '@tanstack/react-table'
-import { EscalaPlantao } from '../TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
+import { EscalaGetResponse } from '../TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
 
-export function getColumnsListEscala(): ColumnDef<EscalaPlantao>[] {
+export function getColumnsListEscala(): ColumnDef<EscalaGetResponse>[] {
   return [
     {
       accessorKey: 'id',

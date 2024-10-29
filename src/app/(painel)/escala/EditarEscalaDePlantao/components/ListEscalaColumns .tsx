@@ -1,8 +1,8 @@
 import { AlignDiv } from '@/components/AlignDiv'
 import { ColumnDef } from '@tanstack/react-table'
-import { EscalaPlantao } from './TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
+import { EscalaGetResponse } from './TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
 
-export function getColumnsListEscalaEdit(): ColumnDef<EscalaPlantao>[] {
+export function getColumnsListEscalaEdit(): ColumnDef<EscalaGetResponse>[] {
   const notFoundField = 'Campo não informado'
   return [
     {

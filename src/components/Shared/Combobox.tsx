@@ -26,11 +26,13 @@ type ComboboxProps<T extends ListItem> = {
   handleClick: (value: string) => void
   getValue: (item: T) => string
   getLabel: (item: T) => string
+  disabled?: boolean
 }
 
 export function Combobox<T extends ListItem>({
   selecTitle,
   list,
+  disabled,
   handleClick,
   getValue,
   getLabel,
@@ -65,32 +67,34 @@ export function Combobox<T extends ListItem>({
           <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50 dark:opacity-75" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0 dark:border-gray-700 xl:w-[50rem]  2xl:w-[80rem]">
-        <Command onClick={(e) => e.preventDefault()} className="w-full">
-          <CommandInput placeholder={selecTitle} className="h-9" />
-          <CommandGroup className="text-gray-950">
-            <CommandList className="max-h-72 w-full overflow-y-auto text-gray-950 dark:text-gray-50">
-              {list.map((item) => (
-                <CommandItem
-                  className="cursor-pointer"
-                  key={getValue(item)}
-                  value={getValue(item)}
-                  // onSelect={() => handleChangeSelectValue(getValue(item))}
-                  onSelect={() => handleChangeSelectValue(getValue(item))}
-                >
-                  <Check
-                    className={cn(
-                      'mr-2 h-4 w-4',
-                      value === getValue(item) ? 'opacity-100' : 'opacity-0',
-                    )}
-                  />
-                  {getLabel(item)}
-                </CommandItem>
-              ))}
-            </CommandList>
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
+      {!disabled && ( // Desabilita a interação com o Popover
+        <PopoverContent className="w-full p-0 dark:border-gray-700 xl:w-[50rem]  2xl:w-[80rem]">
+          <Command onClick={(e) => e.preventDefault()} className="w-full">
+            <CommandInput placeholder={selecTitle} className="h-9" />
+            <CommandGroup className="text-gray-950">
+              <CommandList className="max-h-72 w-full overflow-y-auto text-gray-950 dark:text-gray-50">
+                {list.map((item) => (
+                  <CommandItem
+                    className="cursor-pointer"
+                    key={getValue(item)}
+                    value={getValue(item)}
+                    // onSelect={() => handleChangeSelectValue(getValue(item))}
+                    onSelect={() => handleChangeSelectValue(getValue(item))}
+                  >
+                    <Check
+                      className={cn(
+                        'mr-2 h-4 w-4',
+                        value === getValue(item) ? 'opacity-100' : 'opacity-0',
+                      )}
+                    />
+                    {getLabel(item)}
+                  </CommandItem>
+                ))}
+              </CommandList>
+            </CommandGroup>
+          </Command>
+        </PopoverContent>
+      )}
     </Popover>
   )
 }

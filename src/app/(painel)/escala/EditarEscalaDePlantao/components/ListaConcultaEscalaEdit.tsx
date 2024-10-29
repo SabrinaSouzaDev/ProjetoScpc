@@ -4,15 +4,15 @@ import React from 'react'
 
 import { DataList } from '@/components/ui/data-table/data-list-custume'
 import { getColumnsListEscalaEdit } from './ListEscalaColumns '
-import { EscalaPlantao } from './TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
+import { EscalaGetResponse } from './TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
 
 type ListaConsultaProps = {
-  selectedRows: EscalaPlantao[]
+  selectedRows: EscalaGetResponse[]
 }
 
 export function ListaConcultaEscalaEdit({ selectedRows }: ListaConsultaProps) {
   const columns = React.useMemo(() => getColumnsListEscalaEdit(), [])
-  const filterFields: DataTableFilterField<EscalaPlantao>[] = []
+  const filterFields: DataTableFilterField<EscalaGetResponse>[] = []
 
   const { table } = useDataTable({
     data: selectedRows,

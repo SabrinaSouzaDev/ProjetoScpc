@@ -3,7 +3,7 @@
 import { PageInterface } from '@/types/PageInterface'
 import { scpcApiFetchServer } from './config'
 import { PageableProps } from '@/types/PageableProps'
-import { EscalaPlantao } from '@/app/(painel)/escala/EditarEscalaDePlantao/components/TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
+import { EscalaGetResponse } from '@/app/(painel)/escala/EditarEscalaDePlantao/components/TypeEditPlantaoEdit/EstacalaPlantaoEditDTO'
 
 export interface SolicitacaoPecuniaFolgasParams extends PageableProps {
   situacao: string
@@ -20,7 +20,7 @@ export async function consultaEditarSolicitacaoEscalaPlantao(
   nucleoId?: number,
   gerenciaId?: number,
   params?: PageableProps,
-): Promise<PageInterface<EscalaPlantao>> {
+): Promise<PageInterface<EscalaGetResponse>> {
   const parameters: SolicitacaoPecuniaFolgasParams = {
     situacao,
     diretoriaId,
