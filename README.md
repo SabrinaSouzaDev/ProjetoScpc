@@ -24,7 +24,6 @@ Clone o projeto com SSH
 Ou utilize HTTPS
 
 ```bash
-  git clone https://gitlab.defensoria.pa.def.br/folgas/scpc-front.git
 ```
 ## Rodando localmente
 
@@ -47,12 +46,5 @@ Inicie o servidor
 ```bash
   npm run dev
 ```
-
-
-## Documentação
-
-Para verificar os padrões de código utilizados, gerenciamento de diretórios e outras dicas, acesse o link abaixo
-
-[Documentação](https://wiki.defensoria.pa.def.br/home)
 # ProjetoScpc
 PROJETO
