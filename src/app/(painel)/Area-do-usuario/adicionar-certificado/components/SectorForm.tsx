@@ -50,7 +50,8 @@ export function SectorForm() {
     },
   })
 
-  function handleSubmit() {
+  function handleSubmit(data: z.infer<typeof formSchema>) {
+    console.log(data)
     router.back()
     toast({
       description: 'Certificado adicionado com sucesso',
@@ -114,6 +115,11 @@ export function SectorForm() {
                     type="file"
                     accept=".pdf"
                     className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder:text-gray-500 focus:z-10 focus:border-primary focus:outline-none focus:ring-primary dark:text-gray-200 sm:text-sm"
+                    onChange={(e) => {
+                      if (e.target.files) {
+                        console.log('Arquivo selecionado:', e.target.files[0])
+                      }
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
