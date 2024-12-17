@@ -68,6 +68,8 @@ npm run install:clean
 ## 📝 Estrutura do projeto
 
 ##### Abaixo está um resumo da estrutura principal do projeto:
+
+```plaintext
 scpc-front/
 ├── public/                      # Imagens e assets estáticos
 │   └── static/images/logo/      # Logo e imagens
