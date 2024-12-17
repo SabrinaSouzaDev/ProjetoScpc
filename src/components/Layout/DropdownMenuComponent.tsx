@@ -1,7 +1,9 @@
 'use client'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -22,7 +24,7 @@ export function DropdownMenuComponent() {
           <Avatar className="cursor-pointer rounded-lg">
             <AvatarImage
               alt={session?.user?.name ?? ''}
-              src={session?.user?.image ?? '/static/images/avatarUser.jpg'}
+              src={session?.user?.image ?? '/static/images/User-avatar.png'}
             />
             <AvatarFallback>
               <AvatarFallback>
@@ -44,6 +46,16 @@ export function DropdownMenuComponent() {
         <DropdownMenuLabel className="mb-2 text-lg font-bold">
           Minha conta
         </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem className="cursor-pointer rounded p-2 font-semibold hover:bg-gray-200 dark:hover:bg-neutral-700">
+            Configuração
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="cursor-pointer rounded p-2 font-semibold hover:bg-gray-200 dark:hover:bg-neutral-700">
+          Support
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="mt-2">
           <Button

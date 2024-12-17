@@ -56,7 +56,7 @@ export function DataTable({ columns, data }: DataTableProps) {
           variant="default"
         >
           <PlusSquare className="mr-1" size={20} color="#ffffff" />
-          Solicitar Pecúnia
+          Solicitar Pecunha
         </Button>
         <Button
           className="dark: mb-4 text-white dark:bg-primary/35 dark:hover:bg-primary/50"

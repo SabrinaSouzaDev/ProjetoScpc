@@ -25,10 +25,11 @@ import { CalendarIcon } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
-import { CreditoSolicitacaoDTO } from '@/types/Credito'
+import { Solicitacao } from '@/app/(painel)/folgas/solicitacao/page'
 
 type FormValues = {
   dob: Date[]
+  [key: `dob.${number}`]: Date
 }
 
 const FormSchema = z.object({
@@ -39,7 +40,7 @@ const FormSchema = z.object({
   ),
 })
 
-type FormControl = { selectedRowsmodel: CreditoSolicitacaoDTO[] }
+type FormControl = { selectedRowsmodel: Solicitacao[] }
 
 export function CalendarForm({ selectedRowsmodel }: FormControl) {
   const router = useRouter()
@@ -48,8 +49,9 @@ export function CalendarForm({ selectedRowsmodel }: FormControl) {
     resolver: zodResolver(FormSchema),
   })
 
-  function handleSubmit() {
+  function handleSubmit(data: z.infer<typeof FormSchema>) {
     router.back()
+    console.log(data)
     toast({
       description: 'Certificado adicionado com sucesso',
     })
@@ -60,6 +62,8 @@ export function CalendarForm({ selectedRowsmodel }: FormControl) {
   if (qtdFolgas.length > 5) {
     qtdFolgas = selectedRowsmodel.slice(0, 5)
   }
+
+  console.log(qtdFolgas)
 
   return (
     <Form {...form}>
@@ -111,7 +115,7 @@ export function CalendarForm({ selectedRowsmodel }: FormControl) {
                     />
                   </PopoverContent>
                 </Popover>
-                <FormDescription className="w-86 flex flex-col gap-3">
+                <FormDescription className="w-86 flex">
                   {`Id da solicitação ${row.id}`}
                 </FormDescription>
                 <FormMessage />

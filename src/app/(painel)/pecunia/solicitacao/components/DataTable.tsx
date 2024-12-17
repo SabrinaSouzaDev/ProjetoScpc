@@ -64,7 +64,7 @@ export function DataTable({
     <>
       <div className="flex gap-6">
         <Button
-          className="dark: mb-4 max-w-48 bg-green-500 text-white hover:bg-green-500/75 "
+          className="dark: mb-4 text-white dark:bg-primary/35 dark:hover:bg-primary/50"
           size="sm"
           variant="default"
           onClick={() =>
@@ -75,7 +75,7 @@ export function DataTable({
           }
         >
           <PlusSquare className="mr-1" size={20} color="#ffffff" />
-          Solicitar Pecúnia
+          Solicitar Pecunha
         </Button>
       </div>
       <div className="rounded-md border">

@@ -2,72 +2,17 @@ import { Payment } from '@/app/(painel)/folgas/page'
 import { Solicitacao } from '../../page'
 
 export const MOCK_DATA: Solicitacao[] = [
-  {
-    idPlantao: 1,
-    nome: 'Pagamento 1',
-    inicioPlantao: '1',
-    fimPlantao: 'Certificado',
-  },
-  {
-    idPlantao: 55,
-    nome: 'Pagamento 2',
-    inicioPlantao: '2',
-    fimPlantao: 'Plantao',
-  },
-  {
-    idPlantao: 3,
-    nome: 'Pagamento 3',
-    inicioPlantao: '15',
-    fimPlantao: 'Certificado',
-  },
-  {
-    idPlantao: 4,
-    nome: 'Pagamento 4',
-    inicioPlantao: '3',
-    fimPlantao: 'Plantao',
-  },
-  {
-    idPlantao: 5,
-    nome: 'Pagamento 1',
-    inicioPlantao: '1',
-    fimPlantao: 'Certificado',
-  },
-  {
-    idPlantao: 6,
-    nome: 'Pagamento 2',
-    inicioPlantao: '2',
-    fimPlantao: 'Plantao',
-  },
-  {
-    idPlantao: 7,
-    nome: 'Pagamento 3',
-    inicioPlantao: '1',
-    fimPlantao: 'Certificado',
-  },
-  {
-    idPlantao: 8,
-    nome: 'Pagamento 4',
-    inicioPlantao: '3',
-    fimPlantao: 'Plantao',
-  },
-  {
-    idPlantao: 9,
-    nome: 'Pagamento 1',
-    inicioPlantao: '1',
-    fimPlantao: 'Certificado',
-  },
-  {
-    idPlantao: 10,
-    nome: 'Pagamento 2',
-    inicioPlantao: '2',
-    fimPlantao: 'Plantao',
-  },
-  {
-    idPlantao: 11,
-    nome: 'Pagamento 3',
-    inicioPlantao: '11',
-    fimPlantao: 'Certificado',
-  },
+  { id: 1, nome: 'Pagamento 1', qtdCredito: '1', observacao: 'Certificado' },
+  { id: 55, nome: 'Pagamento 2', qtdCredito: '2', observacao: 'Plantao' },
+  { id: 3, nome: 'Pagamento 3', qtdCredito: '15', observacao: 'Certificado' },
+  { id: 4, nome: 'Pagamento 4', qtdCredito: '3', observacao: 'Plantao' },
+  { id: 5, nome: 'Pagamento 1', qtdCredito: '1', observacao: 'Certificado' },
+  { id: 6, nome: 'Pagamento 2', qtdCredito: '2', observacao: 'Plantao' },
+  { id: 7, nome: 'Pagamento 3', qtdCredito: '1', observacao: 'Certificado' },
+  { id: 8, nome: 'Pagamento 4', qtdCredito: '3', observacao: 'Plantao' },
+  { id: 9, nome: 'Pagamento 1', qtdCredito: '1', observacao: 'Certificado' },
+  { id: 10, nome: 'Pagamento 2', qtdCredito: '2', observacao: 'Plantao' },
+  { id: 11, nome: 'Pagamento 3', qtdCredito: '11', observacao: 'Certificado' },
 ]
 
 export const data: Payment[] = [

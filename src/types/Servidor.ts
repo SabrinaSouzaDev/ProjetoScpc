@@ -1,13 +1,10 @@
 export type Pessoa = {
-  nomeCompleto: string
-  cpf: string
-  email?: string
-  id: string
+  nomeCompleto: 'MARCELO COELHO DO AMARAL P SEGUNDO'
+  cpf: '01950559262'
 }
 
 export type Servidor = {
   id: number
   pessoa: Pessoa
   matricula: string
-  nome: string
 }

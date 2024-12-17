@@ -1,7 +1,3 @@
-import StateDisplay from '@/components/Shared/StateDisplay'
-import TableButton from '@/components/Shared/TableButton'
-
-import { Payment } from '../page'
 import {
   IconeDeferido,
   IconeDetalhes,
@@ -13,7 +9,10 @@ import {
   IconeTramitacao,
   IconeTramitando,
   IconeTrecho,
-} from '@/constants/Icons'
+} from '@/components/constants/Icons'
+import { Payment } from '../page'
+import StateDisplay from '@/components/Shared/StateDisplay'
+import TableButton from '@/components/Shared/TableButton'
 
 // MOCK DOS CARDS
 

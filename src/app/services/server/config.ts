@@ -17,16 +17,17 @@ export async function scpcApiFetchServer(
   const headers = new Headers(params?.headers ?? {})
   if (session?.user?.accessToken) {
     headers.append('Authorization', `Bearer ${session.user.accessToken}`)
+    console.log(`Bearer ${session.user.accessToken}`)
   }
 
   try {
     const response = await fetch(`${apiAddressScpc}${url}`, {
       ...params,
-      cache: 'no-cache',
       headers,
     })
 
     const text = await response.text()
+    console.log('Resposta da API:', text)
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`)

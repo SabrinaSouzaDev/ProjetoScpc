@@ -14,26 +14,33 @@ type NavBarProps = {
 }
 
 export function AccordionMenuSideBar({ setIsOpen }: NavBarProps) {
-  const [selectedItem, setSelectedItem] = useState<number | null>(null)
+  const [selectedItem, setSelectedItem] = useState(0)
+  const [expandedItems, setExpandedItems] = useState<Record<number, boolean>>(
+    {},
+  )
   const session = useSession()
+  function toggleItem(id: number) {
+    setExpandedItems((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }))
+  }
 
   function handleClick(id: number) {
-    setSelectedItem((prev) => (prev === id ? null : id))
+    setSelectedItem(id)
   }
 
   return (
     <div className="w-[270px] space-y-1 px-1">
       <Accordion
-        type="single"
-        value={selectedItem?.toString() || ''}
-        onValueChange={(value) =>
-          setSelectedItem(value ? parseInt(value) : null)
-        }
+        type="multiple"
+        defaultValue={Object.keys(expandedItems)}
         className="w-full border-none text-destructive-foreground outline-none"
       >
         {SidebarData.map((item) => (
           <div key={item.id}>
             {item.subItems.length &&
+            // // TODO KEYCLOAK
             item.permissoes &&
             (!!session?.data?.user?.resourceAccess?.scpc.roles?.filter((role) =>
               item.permissoes?.includes(role),
@@ -43,7 +50,7 @@ export function AccordionMenuSideBar({ setIsOpen }: NavBarProps) {
               <AccordionItem value={item.id.toString()} className="px-3">
                 <AccordionTrigger
                   onClick={() => {
-                    handleClick(item.id)
+                    toggleItem(item.id)
                   }}
                 >
                   <div className="shadow-black4 flex justify-between align-middle text-[15px] leading-[25px] text-slate-50 outline-none">
@@ -54,7 +61,7 @@ export function AccordionMenuSideBar({ setIsOpen }: NavBarProps) {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <div className="max-h-[25rem] flex-col space-y-2 overflow-auto rounded bg-neutral-800 align-baseline text-slate-50 dark:bg-neutral-900 dark:text-slate-200">
+                  <div className="flex-col space-y-2 rounded bg-neutral-800 align-baseline text-slate-50 dark:bg-neutral-900 dark:text-slate-200">
                     {item.subItems.map((subItem) => (
                       <div key={subItem.id}>
                         {item.subItems?.length &&
@@ -66,12 +73,14 @@ export function AccordionMenuSideBar({ setIsOpen }: NavBarProps) {
                         subItem.permissoes ? (
                           <Link
                             target="_self"
-                            className={`${
-                              selectedItem === subItem.id
-                                ? 'bg-primary dark:bg-primary/35'
-                                : ''
-                            } flex justify-between rounded p-[8px] text-[15px] leading-[25px] text-slate-50 hover:bg-primary dark:hover:bg-primary/35`}
+                            className={`${selectedItem === subItem.id ? 'bg-primary dark:bg-primary/35' : ''} flex justify-between rounded p-[8px] text-[15px] leading-[25px] text-slate-50 hover:bg-primary dark:hover:bg-primary/35`}
                             href={subItem.suburl}
+                            onClick={() => {
+                              handleClick(subItem.id)
+                              if (setIsOpen) {
+                                setIsOpen(false)
+                              }
+                            }}
                           >
                             <span className="flex">
                               {subItem.icon}

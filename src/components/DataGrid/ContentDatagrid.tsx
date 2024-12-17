@@ -155,6 +155,7 @@ export function ContentDataGrid() {
     }
     try {
       setSelectedRows(selectedRows.rows)
+      console.log(selectedRows)
       toast({
         title: 'Solicitado com sucesso',
         action: (
