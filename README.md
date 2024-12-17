@@ -1,6 +1,6 @@
-<div align="center">
+<!-- <div align="center">
   <img src="public/static/images/logo/LogoDPECompress.png" alt="Logo DPE" width="200"/>
-</div>
+</div> -->
 
 # SCPC - Front
 
@@ -31,8 +31,7 @@ Para clonar o repositório, você pode utilizar **SSH** ou **HTTPS**.
 
 ```bash
 git clone git@gitlab.defensoria.pa.def.br:folgas/scpc-front.git
-
-
+```
 ## 🧹 Outras tarefas disponíveis
 
 ### Build do projeto
@@ -44,15 +43,29 @@ npm run build
 npm run lint
 
 npm run install:clean
+```
 
-## 🧹 Outras tarefas disponíveis
-
-### Build do projeto
-Para gerar uma versão otimizada do projeto, execute:
+### Limpeza eslint
+Corrigir problemas de lint
 
 ```bash
-npm run build
+npm run lint
+```
 
+Corrigir problemas de lint
+
+```bash
+npm run install:clean
+```
+#### 🔗 Links úteis
+- [Documentação Next.js](https://nextjs.org/docs)
+- [Documentação Shadcn UI](https://ui.shadcn.dev/)
+- [Documentação TailwindCSS](https://tailwindcss.com/docs)
+- [Documentação React Hook Form](https://react-hook-form.com/)
+
+## 📝 Estrutura do projeto
+
+##### Abaixo está um resumo da estrutura principal do projeto:
 scpc-front/
 ├── public/                      # Imagens e assets estáticos
 │   └── static/images/logo/      # Logo e imagens
@@ -66,13 +79,3 @@ scpc-front/
 ├── .env.development.example     # Exemplo de variáveis de ambiente
 ├── package.json                 # Configuração de dependências
 └── README.md                    # Documentação do projeto
-
-
-## 🔗 Links úteis
-
-- [Documentação Next.js](https://nextjs.org/docs)
-- [Documentação Shadcn UI](https://ui.shadcn.dev/)
-- [Documentação TailwindCSS](https://tailwindcss.com/docs)
-- [Documentação React Hook Form](https://react-hook-form.com/)
-
-
