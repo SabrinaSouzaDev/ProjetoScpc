@@ -39,10 +39,12 @@ Para gerar uma versão otimizada do projeto, execute:
 
 ```bash
 npm run build
+```
 
-npm run lint
-
-npm run install:clean
+#### Iniciar em produção
+Após a build, inicie o servidor de produção com:
+```bash
+npm run build
 ```
 
 ### Limpeza eslint
@@ -52,7 +54,7 @@ Corrigir problemas de lint
 npm run lint
 ```
 
-Corrigir problemas de lint
+Limpeza e reinstalação
 
 ```bash
 npm run install:clean
