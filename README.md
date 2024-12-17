@@ -1,50 +1,78 @@
 <div align="center">
-  ![Logo](public/static/images/logo/LogoDPECompress.png)
+  <img src="public/static/images/logo/LogoDPECompress.png" alt="Logo DPE" width="200"/>
 </div>
-
 
 # SCPC - Front
 
-Sistema criado pela defensoria pública do estado do Pará com o intuito de realizar o gerenciamento de folgas, pecúnias e relatórios.
+Sistema criado com minha participação para Defensoria Pública do Estado do Pará com o intuito de realizar o **gerenciamento de folgas, pecúnias e relatórios**. Este projeto utiliza tecnologias modernas de front-end para garantir uma interface eficiente e responsiva.
 
+---
 
-## Stack utilizada
+## 📦 Stack utilizada
 
-**Front-end:** React, Next, TailwindCSS, Shadcn.
+- **Framework**: [Next.js 14](https://nextjs.org/)
+- **Biblioteca UI**: [React](https://react.dev/) com [Shadcn UI](https://ui.shadcn.com/)
+- **Estilização**: [TailwindCSS](https://tailwindcss.com/)
+- **Validação**: [Zod](https://zod.dev/)
+- **Formulários**: [React Hook Form](https://react-hook-form.com/)
+- **Gerenciamento de Estado**: [Recoil](https://recoiljs.org/)
+- **Ícones**: [Phosphor Icons](https://phosphoricons.com/), [Lucide Icons](https://lucide.dev/)
+- **Testes**: [Vitest](https://vitest.dev/)
+- **Charts**: [ApexCharts](https://apexcharts.com/)
+- **Data Manipulation**: [Date-fns](https://date-fns.org/)
 
+---
 
-## Clonando o projeto
+## 🚀 Clonando o projeto
 
-Clone o projeto com SSH
+Para clonar o repositório, você pode utilizar **SSH** ou **HTTPS**.
 
-```bash
-  git clone git@gitlab.defensoria.pa.def.br:folgas/scpc-front.git
-```
-
-Ou utilize HTTPS
-
-```bash
-```
-## Rodando localmente
-
-Entre no diretório do projeto
-
-```bash
-  cd scpc-front
-```
-
-Instale as dependências
+### Clonando via SSH
 
 ```bash
-  npm install
-```
+git clone git@gitlab.defensoria.pa.def.br:folgas/scpc-front.git
 
-OBS: Para que as funcionalidades ocorram corretamente, é necessário que seja criado um arquivo ".env" na raiz do projeto, copiando o arquivo exemplo ".env.development.example"
 
-Inicie o servidor
+## 🧹 Outras tarefas disponíveis
+
+### Build do projeto
+Para gerar uma versão otimizada do projeto, execute:
 
 ```bash
-  npm run dev
-```
-# ProjetoScpc
-PROJETO
+npm run build
+
+npm run lint
+
+npm run install:clean
+
+## 🧹 Outras tarefas disponíveis
+
+### Build do projeto
+Para gerar uma versão otimizada do projeto, execute:
+
+```bash
+npm run build
+
+scpc-front/
+├── public/                      # Imagens e assets estáticos
+│   └── static/images/logo/      # Logo e imagens
+├── src/
+│   ├── components/              # Componentes reutilizáveis
+│   ├── hooks/                   # Hooks personalizados
+│   ├── pages/                   # Páginas do Next.js
+│   ├── services/                # Chamadas para API e serviços
+│   ├── styles/                  # Estilos Tailwind e globais
+│   └── utils/                   # Funções utilitárias
+├── .env.development.example     # Exemplo de variáveis de ambiente
+├── package.json                 # Configuração de dependências
+└── README.md                    # Documentação do projeto
+
+
+## 🔗 Links úteis
+
+- [Documentação Next.js](https://nextjs.org/docs)
+- [Documentação Shadcn UI](https://ui.shadcn.dev/)
+- [Documentação TailwindCSS](https://tailwindcss.com/docs)
+- [Documentação React Hook Form](https://react-hook-form.com/)
+
+
