@@ -70,16 +70,22 @@ npm run install:clean
 ##### Abaixo está um resumo da estrutura principal do projeto:
 
 ```plaintext
-scpc-front/
+my-nextjs-app/
 ├── public/                      # Imagens e assets estáticos
-│   └── static/images/logo/      # Logo e imagens
+│   ├── favicon.ico              # Ícone do site
+│   └── vercel.svg               # Imagem padrão Vercel
 ├── src/
+│   ├── app/                     # Diretório de rotas e páginas
+│   │   ├── api/                 # Rotas de API
+│   │   │   ├── hello/route.js   # Exemplo de rota API
+│   │   ├── page.js              # Componente da página principal
 │   ├── components/              # Componentes reutilizáveis
 │   ├── hooks/                   # Hooks personalizados
-│   ├── pages/                   # Páginas do Next.js
-│   ├── services/                # Chamadas para API e serviços
-│   ├── styles/                  # Estilos Tailwind e globais
+│   ├── styles/                  # Estilos CSS ou Tailwind
 │   └── utils/                   # Funções utilitárias
-├── .env.development.example     # Exemplo de variáveis de ambiente
+├── .env.local                   # Variáveis de ambiente locais
+├── .gitignore                   # Arquivos e diretórios ignorados pelo Git
+├── next.config.js               # Configuração do Next.js
 ├── package.json                 # Configuração de dependências
-└── README.md                    # Documentação do projeto
+├── README.md                    # Documentação do projeto
+└── yarn.lock                    # Arquivo de bloqueio de dependências (ou package-lock.json se estiver usando npm)
