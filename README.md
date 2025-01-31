@@ -54,3 +54,5 @@ Inicie o servidor
 Para verificar os padrões de código utilizados, gerenciamento de diretórios e outras dicas, acesse o link abaixo
 
 [Documentação](https://wiki.defensoria.pa.def.br/home)
+# ProjetoScpc
+PROJETO
