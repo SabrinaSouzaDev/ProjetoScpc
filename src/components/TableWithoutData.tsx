@@ -7,14 +7,14 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-export function TableWithouData() {
+export function TableWithoutData() {
   return (
     <Table className="rounded-md border">
       <TableHeader>
         <TableRow>
           <TableHead className="text-center">
-            Falha na requisição de dados. Tente Logar novamente, caso o erro
-            persista entre em contato com O Bruna da Dpe Assis
+            Falha na requisição de dados. Tente logar novamente, caso o erro
+            persista entre em contato com a DPE.
           </TableHead>
         </TableRow>
       </TableHeader>
