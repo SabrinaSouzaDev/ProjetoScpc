@@ -12,7 +12,6 @@ import { AccordionMenuSideBar } from './AccordionMenuSideBar'
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import LogoBrancSvg from '../../../public/static/icon/dpe-branca.svg'
 
 export function MobileSideBar() {
   const [sheetOpen, setSheetOpen] = useState(false)
@@ -32,7 +31,7 @@ export function MobileSideBar() {
               <div className="flex items-center">
                 <Image
                   className="mx-auto"
-                  src={LogoBrancSvg}
+                  src="/static/icon/dpe-branca.svg"
                   alt="Logo Defensoria"
                   height={90}
                   width={90}

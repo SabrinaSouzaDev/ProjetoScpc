@@ -6,11 +6,25 @@ stages:
 
 .create_env:
   tags:
+    # - ssh
+    - shell
     - ssh
   before_script:
     # set env
     - echo "BASE_PATH=$BASE_PATH" > .env
+    # - echo "API_SCPC_URL=$API_SCPC_URL" >> .env
+    # - echo "DOMAIN_APPLICATION=$DOMAIN_APPLICATION" >> .env
+
+    # # Next Auth
+    # - echo "NEXT_PUBLIC_API_SCPC_URL=\$API_SCPC_URL" >> .env
+    # - echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env
+    # - echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env
+    # - echo "NEXT_PUBLIC_BASE_PATH=\$BASE_PATH" >> .env
+
 
 variables:
   GIT_CLEAN_FLAGS: none
   DOCKER_IMAGE_TAG: $CI_COMMIT_SHORT_SHA
+
+# include:
+

@@ -151,63 +151,21 @@
   h6 {
     @apply text-base
   }
-
-  .overflow-y-auto{
-    overflow-y: auto;
-  }
-  
-  .overflow-x-auto {
-    overflow-x: auto;
-  }
-  .overflow-y-auto::-webkit-scrollbar
-  .overflow-auto::-webkit-scrollbar {
+  .overflow-y-auto::-webkit-scrollbar {
     width: 3px; /* Ajuste a largura da barra de rolagem */
   }
 
-  .overflow-y-auto::-webkit-scrollbar-track
-  .overflow-auto::-webkit-scrollbar-track {
-    background: transparent
+  .overflow-y-auto::-webkit-scrollbar-track {
+    background: #4B4B4B; /* Cor de fundo da barra de rolagem */
   }
 
-  .overflow-y-auto::-webkit-scrollbar-thumb
-  .overflow-auto::-webkit-scrollbar-thumb {
+  .overflow-y-auto::-webkit-scrollbar-thumb {
     background-color: #363636; /* Cor da barra de rolagem */
     border-radius: 20px; /* Raio da borda da barra de rolagem */
-    border: 1px solid transparent; /* Bordas da barra de rolagem */
+    border: 1px solid #0E0D0D; /* Bordas da barra de rolagem */
   }
 
-  .overflow-y-auto::-webkit-scrollbar-thumb:hover 
-  .overflow-auto::-webkit-scrollbar-thumb:hover {
-    background-color: #070C119C; /* Cor da barra de rolagem ao passar o mouse */
-  }
-  .overflow-y-auto-color {
-    overflow-y: auto;
-  }
-  
-  .overflow-x-auto-color {
-    overflow-x: auto;
-  }
-  
-  .overflow-y-auto-color::-webkit-scrollbar,
-  .overflow-x-auto-color::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-  }
-  
-  .overflow-y-auto-color::-webkit-scrollbar-track,
-  .overflow-x-auto-color::-webkit-scrollbar-track {
-    background: transparent; /* Fundo translúcido */
-  }
-  
-  .overflow-y-auto-color::-webkit-scrollbar-thumb,
-  .overflow-x-auto-color::-webkit-scrollbar-thumb {
-    background: rgba(100 100 100 / 0.44); /* Cor para o thumb */
-    border-radius: 5px;
-    border: 1px solid transparent; /* Bordas da barra de rolagem */
-  }
-  
-  .overflow-y-auto-color::-webkit-scrollbar-thumb:hover,
-  .overflow-x-auto-color::-webkit-scrollbar-thumb:hover {
-    background: rgba(155 155 155 / 0.43); /* Mais visível ao passar o mouse */
+  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background-color: #070C11; /* Cor da barra de rolagem ao passar o mouse */
   }
 }

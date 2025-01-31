@@ -61,7 +61,7 @@ export class ObjectUtils {
       : []
 
     const pageableParameters = pageable
-      ? ObjectUtils.createQueryPageableNotOnly(pageable)
+      ? ObjectUtils.createQueryPageable(pageable)
       : []
 
     const queryParameters = objectParameters.concat(pageableParameters)
@@ -69,7 +69,7 @@ export class ObjectUtils {
     return queryParameters.join('&')
   }
 
-  private static createQueryPageableNotOnly(params?: PageableProps): string[] {
+  private static createQueryPageable(params?: PageableProps): string[] {
     const newQuery =
       params?.sort?.map((value) => {
         if (value.desc) {
@@ -86,26 +86,6 @@ export class ObjectUtils {
       newQuery.push(`size=${params.size}`)
     }
     return newQuery
-  }
-
-  static createQueryPageable(params?: PageableProps): string {
-    const newQuery =
-      params?.sort?.map((value) => {
-        if (value.desc) {
-          return `sort=${value.id},desc`
-        } else {
-          return `sort=${value.id},asc`
-        }
-      }) ?? []
-
-    if (params?.page) {
-      newQuery.push(`page=${params.page}`)
-    }
-    if (params?.size) {
-      newQuery.push(`size=${params.size}`)
-    }
-
-    return newQuery.join('&')
   }
 
   static transformToObject<T>(objects: ColumnFiltersState): T {

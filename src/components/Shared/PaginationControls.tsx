@@ -22,7 +22,7 @@ type DataTablePaginationProps<TData> = {
 
 export function DataTablePagination<TData>({
   table,
-}: Readonly<DataTablePaginationProps<TData>>) {
+}: DataTablePaginationProps<TData>) {
   const currentPage = table.getState().pagination.pageIndex
   const totalPages = table.getPageCount()
   const pageButtons = []

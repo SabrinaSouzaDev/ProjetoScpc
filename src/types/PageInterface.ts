@@ -2,7 +2,7 @@ export type PageInterface<T> = {
   totalPages: number
   totalElements: number
   size: number
-  content: T[]
+  content?: T[]
   number: number
   sort: {
     empty: boolean

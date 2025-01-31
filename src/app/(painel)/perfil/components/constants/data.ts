@@ -26,7 +26,7 @@ export const texto: Dado[] = [
 export const users: User[] = [
   {
     id: 1,
-    imageSrc: '/static/images/avatar-user.svg.png',
+    imageSrc: '/static/images/User-avatar.svg.png',
     name: 'FULANO.DETAL',
     role: 'ANALISTA DE SISTEMAS',
     sector: 'NTIC',

@@ -7,8 +7,8 @@ services:
       - .env
     image: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}-${DOCKER_IMAGE_TAG}
     restart: always
-    networks:
-      - traefik-public
+    # networks:
+   
     environment:
       - TZ=America/Belem
     deploy:

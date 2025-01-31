@@ -18,7 +18,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useToast } from '@/components/ui/use-toast'
 import { Credito } from '@/types/Credito'
 import { Servidor } from '@/types/Servidor'
 import {
@@ -30,16 +29,46 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { formSchemaCreditoEscola } from './formSchemaCreditoEscola'
-import { ErrorMapping } from '@/utils/errorMapping'
+
+const formSchema = z.object({
+  diretoria: z
+    .object({
+      id: z.number(),
+      nome: z.string(),
+    })
+    .nullable(),
+  coordenadoria: z
+    .object({
+      id: z.number(),
+      nome: z.string(),
+    })
+    .nullable(),
+  gerencia: z
+    .object({
+      id: z.number(),
+      nome: z.string(),
+    })
+    .nullable(),
+  servidor: z.object({
+    id: z.number(),
+    matricula: z.string(),
+    pessoa: z.object({
+      nomeCompleto: z.string(),
+    }),
+  }),
+  creditos: z
+    .number()
+    .positive('O número deve ser positivo')
+    .int('O número deve ser um inteiro'),
+})
 
 export function FolgasFormEscolaSuperior({
   listaDiretorias,
 }: Readonly<{
   listaDiretorias: Diretoria[]
 }>) {
-  const form = useForm<z.infer<typeof formSchemaCreditoEscola>>({
-    resolver: zodResolver(formSchemaCreditoEscola),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       diretoria: undefined,
       coordenadoria: undefined,
@@ -48,7 +77,6 @@ export function FolgasFormEscolaSuperior({
       creditos: undefined,
     },
   })
-  const { toast } = useToast()
 
   const [coordenadorias, setCoordenadorias] = useState<Coordenadoria[]>([])
   const [gerencias, setGerencias] = useState<Gerencia[]>([])
@@ -103,36 +131,13 @@ export function FolgasFormEscolaSuperior({
     }
   }
 
-  async function handleSubmit(data: z.infer<typeof formSchemaCreditoEscola>) {
-    let errorTreatment
-
-    try {
-      if (!data.servidor) {
-        return
-      }
-
-      const credito: Credito = {
-        servidorId: data.servidor?.id,
-        numeroFolgas: data.creditos,
-      }
-
-      const response = await salvarFolgas(credito)
-
-      if (response !== 'SUCCESS_SAVE') {
-        errorTreatment = ErrorMapping(response.technicalMessage)
-        throw new Error(`Response status: ${response.status}`)
-      }
-
-      toast({
-        title: 'Crédito Solicitada com sucesso',
-        duration: 3000,
-      })
-    } catch (err) {
-      toast({
-        variant: 'destructive',
-        title: errorTreatment || 'Erro ao solicitar crédito',
-        duration: 4000,
-      })
+  function handleSubmit(data: z.infer<typeof formSchema>) {
+    const credito: Credito = {
+      servidorId: data.servidor?.id,
+      numeroFolgas: data.creditos,
+    }
+    if (data.servidor) {
+      salvarFolgas(credito)
     }
   }
 

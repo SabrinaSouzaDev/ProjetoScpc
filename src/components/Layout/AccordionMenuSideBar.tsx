@@ -14,7 +14,10 @@ type NavBarProps = {
 }
 
 export function AccordionMenuSideBar({ setIsOpen }: NavBarProps) {
-  const [selectedItem, setSelectedItem] = useState<number | null>(null)
+  const [selectedItem, setSelectedItem] = useState(0)
+  const [expandedItems, setExpandedItems] = useState<Record<number, boolean>>(
+    {},
+  )
   const session = useSession()
   const hasPermission = (permissoes: string[]) => {
     const userRoles = session?.data?.user?.resourceAccess?.scpc?.roles || []
@@ -24,17 +27,14 @@ export function AccordionMenuSideBar({ setIsOpen }: NavBarProps) {
     )
   }
   function handleClick(id: number) {
-    setSelectedItem((prev) => (prev === id ? null : id))
+    setSelectedItem(id)
   }
 
   return (
     <div className="w-[270px] space-y-1 px-1">
       <Accordion
-        type="single"
-        value={selectedItem?.toString() || ''}
-        onValueChange={(value) =>
-          setSelectedItem(value ? parseInt(value) : null)
-        }
+        type="multiple"
+        defaultValue={Object.keys(expandedItems)}
         className="w-full border-none text-destructive-foreground outline-none"
       >
         {SidebarData.map((item, index) => {
@@ -70,6 +70,12 @@ export function AccordionMenuSideBar({ setIsOpen }: NavBarProps) {
                               : ''
                               } flex justify-between rounded p-[8px] text-[15px] leading-[25px] text-slate-50 hover:bg-primary dark:hover:bg-primary/35`}
                             href={subItem.suburl}
+                            onClick={() => {
+                              handleClick(subItem.id)
+                              if (setIsOpen) {
+                                setIsOpen(false)
+                              }
+                            }}
                           >
                             <span className="flex items-center justify-center gap-4">
                               <h6 className='text-[0.2rem] size-5'>

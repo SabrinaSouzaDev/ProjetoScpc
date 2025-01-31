@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import { Button } from '@/components/ui/button'
-import { ToastAction } from '@/components/ui/toast'
 import { useToast } from '@/components/ui/use-toast'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
@@ -10,13 +9,14 @@ import React, { useState } from 'react'
 import { DataTable } from './solicitacao/components/DataTable'
 import { IndeterminateCheckbox } from './solicitacao/components/InderteminateCheckbox'
 import { MOCK_DATA } from './solicitacao/mock/mockTable'
+import { ToastAction } from '@/components/ui/toast'
 
 export type Solicitacao = {
-  idPlantao: number
+  id: number
   selecionar?: boolean
   nome: string
-  inicioPlantao: string
-  fimPlantao: string
+  qtdCredito: string
+  observacao: 'Certificado' | 'Plantao'
 }
 
 export default function Page() {
@@ -26,7 +26,7 @@ export default function Page() {
   const columns = React.useMemo<ColumnDef<Solicitacao>[]>(
     () => [
       {
-        accessorKey: 'idPlantao',
+        accessorKey: 'id',
         header: ({ column }) => {
           return (
             <>
@@ -98,7 +98,7 @@ export default function Page() {
         footer: (props) => props.column.id,
       },
       {
-        accessorKey: 'inicioPlantao',
+        accessorKey: 'qtdCredito',
         header: ({ column }) => {
           return (
             <Button
@@ -116,7 +116,7 @@ export default function Page() {
         footer: (props) => props.column.id,
       },
       {
-        accessorKey: 'fimPlantao',
+        accessorKey: 'observacao',
         header: ({ column }) => {
           return (
             <Button
@@ -155,6 +155,7 @@ export default function Page() {
     }
     try {
       setSelectedRows(selectedRows.rows)
+      console.log(selectedRows)
       toast({
         title: 'Solicitado com sucesso',
         action: (
