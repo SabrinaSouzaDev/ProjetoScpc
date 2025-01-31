@@ -8,7 +8,7 @@ export function StatusChip({ status }: statusChipProps) {
   switch (status) {
     case 'SOLICITADO':
       className =
-        'pl-4 pr-4 text-white bg-yellow-500 w-full max-w-24 text-center h-10 rounded-full text-wrap overflow-hidden overflow-ellipsis'
+        'pl-4 pr-4 text-white bg-yellow-700 w-full max-w-24 text-center h-10 rounded-full text-wrap overflow-hidden overflow-ellipsis'
       break
     case 'DEVOLVIDO':
       className =
@@ -21,6 +21,10 @@ export function StatusChip({ status }: statusChipProps) {
     case 'INDEFERIDO':
       className =
         'pl-4 pr-4 text-white bg-red-500 w-full max-w-24 text-center h-10 rounded-full text-wrap overflow-hidden overflow-ellipsis'
+      break
+    case 'CANCELADO':
+      className =
+        'pl-4 pr-4 text-white bg-red-700 w-full max-w-24 text-center h-10 rounded-full text-wrap overflow-hidden overflow-ellipsis'
       break
     default:
       className =
