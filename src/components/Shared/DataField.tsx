@@ -22,18 +22,29 @@ import { Control, FieldValues, Path } from 'react-hook-form'
 interface DateFieldProps<T extends FieldValues> {
   name: Path<T>
   label: string
-  // form: UseFormReturn<T>
   control: Control<T>
   onChange?: (value: string) => void
   disabled?: boolean
   value?: string | Date | Date[] | string[] | null
+
+  minDate?: Date
+  maxDate?: Date
 }
 
 export function DateField<T extends FieldValues>({
   label,
   name,
+  disabled = false,
   control,
+  minDate,
+  maxDate,
 }: DateFieldProps<T>) {
+  const isDisabledDate = (date: Date) => {
+    if (minDate && date > minDate) return true
+    if (maxDate && date < maxDate) return true
+    return false
+  }
+
   return (
     <FormField<T>
       control={control}
@@ -45,11 +56,11 @@ export function DateField<T extends FieldValues>({
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
+                  disabled={disabled}
                   variant="outline"
                   className={cn(
                     'w-[240px] pl-3 text-left font-normal',
                     !field.value && 'text-muted-foreground',
-                    // Exibe borda vermelha se houver erro
                   )}
                 >
                   {field.value ? (
@@ -68,8 +79,8 @@ export function DateField<T extends FieldValues>({
                 mode="single"
                 selected={field.value && new Date(field.value)}
                 onSelect={field.onChange}
-                initialFocus
                 locale={ptBR}
+                disabled={disabled || isDisabledDate}
               />
             </PopoverContent>
           </Popover>
