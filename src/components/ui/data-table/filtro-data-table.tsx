@@ -1,12 +1,5 @@
 import * as React from 'react'
 import {
-  flexRender,
-  RowData,
-  type Table as TanstackTable,
-} from '@tanstack/react-table'
-
-import { cn } from '@/lib/utils'
-import {
   Table,
   TableBody,
   TableCell,
@@ -14,48 +7,51 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { DataTablePagination } from '@/components/ui/data-table/data-table-pagination'
+import {
+  ColumnDef,
+  flexRender,
+  RowData,
+  type Table as TanstackTable,
+} from '@tanstack/react-table'
 import { DataTableFilterField } from '@/types'
 import { Input } from '../../Shared/input'
+import { cn } from '@/lib/utils'
 
 interface DataTableProps<TData extends RowData>
   extends React.HTMLAttributes<HTMLDivElement> {
-  /**
-   * The table instance returned from useDataTable hook with pagination, sorting, filtering, etc.
-   * @type TanstackTable<TData>
-   */
-  table?: TanstackTable<TData>
+  table: TanstackTable<TData>
   filterFields?: DataTableFilterField<TData>[]
-  onRowSelect?: (row: TData) => void // Adicionando a função de seleção
+  columns?: ColumnDef<TData>[] // Adicionei columns como propriedade opcional
 }
 
-export function DataList<TData extends RowData>({
+export function DataTableFilter<TData extends RowData>({
   table,
   filterFields,
-  children,
   className,
   ...props
 }: DataTableProps<TData>) {
-  const rowModel = table ? table.getRowModel() : { rows: [] }
-  // Memoize computation of searchableColumns and filterableColumns
+  const rowModel = table.getRowModel()
+
   const { searchableColumns } = React.useMemo(() => {
     return {
       searchableColumns: filterFields?.filter((field) => !field.options) ?? [],
     }
   }, [filterFields])
+
   return (
     <div
       className={cn('w-full space-y-2.5 overflow-auto', className)}
       {...props}
     >
-      {children}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            {table?.getHeaderGroups().map((headerGroup) => (
+            {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   const columnDef = header.column.columnDef
-                  const column = searchableColumns?.find(
+                  const column = searchableColumns.find(
                     (column) => column.value === header.id,
                   )
                   return (
@@ -86,8 +82,8 @@ export function DataList<TData extends RowData>({
             ))}
           </TableHeader>
           <TableBody>
-            {rowModel.rows && rowModel.rows.length > 0 ? (
-              rowModel?.rows.map((row) => (
+            {rowModel.rows.length > 0 ? (
+              rowModel.rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() ? 'selected' : undefined}
@@ -105,16 +101,17 @@ export function DataList<TData extends RowData>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={table ? table.getAllColumns().length : 0}
+                  colSpan={table.getAllColumns().length}
                   className="h-24 text-center"
                 >
-                  Carregando dados da tabela...
+                  Sem resultados.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
+      <DataTablePagination table={table} />
     </div>
   )
 }

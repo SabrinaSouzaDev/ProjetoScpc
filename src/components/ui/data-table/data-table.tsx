@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/table'
 import { DataTablePagination } from '@/components/ui/data-table/data-table-pagination'
 import { DataTableFilterField } from '@/types'
-import { Input } from '../input'
+import { Input } from '../../Shared/input'
 
 interface DataTableProps<TData extends RowData>
   extends React.HTMLAttributes<HTMLDivElement> {
