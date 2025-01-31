@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -6,11 +5,17 @@ import {
   CommandInput,
   CommandItem,
 } from '@/components/ui/command'
-import { CommandList } from 'cmdk'
-import { Check, ChevronsUpDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Pessoa } from '@/types/Servidor'
+import { CommandList } from 'cmdk'
+import { debounce } from 'lodash'
+import { Check, ChevronsUpDown } from 'lucide-react'
+import React from 'react'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 
 interface ListItem {
   nome?: string
@@ -22,37 +27,57 @@ interface ListItem {
 
 type ComboboxProps<T extends ListItem> = {
   selecTitle: string
-  list: T[]
+  list?: T[]
   handleClick: (value: string) => void
   getValue: (item: T) => string
   getLabel: (item: T) => string
   disabled?: boolean
+  initialSelected?: string
+  requestQuery?: (item: string) => T[] | Promise<T[]>
+  debaunceDelay?: number
 }
 
 export function Combobox<T extends ListItem>({
   selecTitle,
   list,
   disabled,
+  initialSelected,
   handleClick,
   getValue,
   getLabel,
+  requestQuery,
+  debaunceDelay = 300,
 }: ComboboxProps<T>) {
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState('')
+  const [value, setValue] = React.useState(initialSelected || '')
+  const [listItems, setListItems] = React.useState(list)
 
-  const selectedItem = value
-    ? list.find((listData) => getLabel(listData) === value)
-    : undefined
-
-  const displayName = selectedItem
-    ? selectedItem.nome || selectedItem.pessoa?.nomeCompleto
-    : selecTitle
+  const selectedItem = list
+    ? list.find((listData) => getValue(listData) === value)
+    : null
+  const displayName = selectedItem ? getLabel(selectedItem) : value
 
   function handleChangeSelectValue(newValue: string) {
     setOpen(false)
     setValue(newValue)
     handleClick(newValue)
   }
+
+  const handleOnSearchChange = debounce(async (e: string) => {
+    if (e === '') {
+      return
+    }
+    if (requestQuery) {
+      const resp = await requestQuery(e)
+      setListItems(resp)
+    } else {
+      setListItems(
+        list?.filter((l) =>
+          getLabel(l).toUpperCase().startsWith(e.toUpperCase()),
+        ),
+      )
+    }
+  }, debaunceDelay)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -70,15 +95,18 @@ export function Combobox<T extends ListItem>({
       {!disabled && ( // Desabilita a interação com o Popover
         <PopoverContent className="w-full p-0 dark:border-gray-700 xl:w-[50rem]  2xl:w-[80rem]">
           <Command onClick={(e) => e.preventDefault()} className="w-full">
-            <CommandInput placeholder={selecTitle} className="h-9" />
+            <CommandInput
+              onValueChange={handleOnSearchChange}
+              placeholder={selecTitle}
+              className="h-9"
+            />
             <CommandGroup className="text-gray-950">
               <CommandList className="max-h-72 w-full overflow-y-auto text-gray-950 dark:text-gray-50">
-                {list.map((item) => (
+                {listItems?.map((item) => (
                   <CommandItem
                     className="cursor-pointer"
                     key={getValue(item)}
                     value={getValue(item)}
-                    // onSelect={() => handleChangeSelectValue(getValue(item))}
                     onSelect={() => handleChangeSelectValue(getValue(item))}
                   >
                     <Check
