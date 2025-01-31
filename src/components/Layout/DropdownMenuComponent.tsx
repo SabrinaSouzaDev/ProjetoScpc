@@ -24,7 +24,10 @@ export function DropdownMenuComponent() {
           <Avatar className="cursor-pointer rounded-lg">
             <AvatarImage
               alt={session?.user?.name ?? ''}
-              src={session?.user?.image ?? '/static/images/User-avatar.png'}
+              src={
+                session?.user?.image ??
+                '../../../public/static/images/avatarUser.jpg'
+              }
             />
             <AvatarFallback>
               <AvatarFallback>
@@ -37,7 +40,7 @@ export function DropdownMenuComponent() {
               {session?.user?.name}
             </h5>
             <h5 className=" leading-2 hidden text-sm font-semibold text-white dark:text-slate-50 sm:inline [&:not(:first-child)]:mt-1">
-              {session?.user?.resourceAccess?.scpc.roles[0]}
+              {session?.user?.resourceAccess?.scpc?.roles[0]}
             </h5>
           </div>
         </div>

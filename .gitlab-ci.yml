@@ -8,6 +8,7 @@ stages:
   tags:
     # - ssh
     - shell
+    - ssh
   before_script:
     # set env
     - echo "BASE_PATH=$BASE_PATH" > .env
