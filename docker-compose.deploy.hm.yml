@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+
+  frontend:
+    env_file:
+      - .env
+    image: ${CI_REGISTRY_IMAGE}:${CI_COMMIT_BRANCH}-${DOCKER_IMAGE_TAG}
+    restart: always
+    # networks:
+   
+    environment:
+      - TZ=America/Belem
+    deploy:
+      placement:
+        constraints:
+          - node.labels.solar-hm == true
+      # labels:
+      # VARIAVEIS  DO GITLAB
+
+# networks:
+#   traefik-public:
+#     external: true

@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "bradlc.vscode-tailwindcss",
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
+        "exodiusstudios.comment-anchors",
+        "formulahendry.auto-rename-tag",
+        "usernamehw.errorlens",
+        "vincaslt.highlight-matching-tag",
+        "yoavbls.pretty-ts-errors"
+    ]
+}
