@@ -10,7 +10,7 @@ const nextConfig = {
         hostname: 'localhost',
       },
       {
-        hostname: '*.defensoria.pa.def.br',
+        hostname: '',
       },
     ],
   },
