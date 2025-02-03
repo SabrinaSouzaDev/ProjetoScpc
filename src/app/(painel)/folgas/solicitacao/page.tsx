@@ -1,190 +1,53 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-'use client'
-import { Button } from '@/components/ui/button'
-import { useToast } from '@/components/ui/use-toast'
-import { ColumnDef, RowModel } from '@tanstack/react-table'
-import { ArrowUpDown } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
-import { DataTable } from './components/DataTable'
-import { IndeterminateCheckbox } from './components/InderteminateCheckbox'
-import { MOCK_DATA } from './mock/mockTable'
-import { ToastAction } from '@/components/ui/toast'
+'use server'
+// import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
+// import { consultaCreditosServidor } from '@/app/services/server/ScpcServiceServer'
+import { getServerSession } from 'next-auth'
+import { Suspense } from 'react'
+import Table from './components/Table'
+import React from 'react'
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
+import { DataTableSkeleton } from '@/components/ui/data-table/data-table-skeleton'
+import { searchParamsSchema } from '@/lib/validations'
+import { WarningMessageId } from '@/utils/permissionsMapping'
+import { SearchParams } from '../../../../../types'
+import { TitlePage } from '@/components/TitlePage'
 
-export type Solicitacao = {
-  id: number
-  selecionar?: boolean
-  nome: string
-  qtdCredito: string
-  observacao: 'Certificado' | 'Plantao'
-}
-
-export default function Page() {
-  const { toast } = useToast()
-  const router = useRouter()
-  const [selectedRows, setSelectedRows] = useState<Solicitacao[]>([])
-  const columns = React.useMemo<ColumnDef<Solicitacao>[]>(
-    () => [
-      {
-        accessorKey: 'id',
-        header: ({ column }) => {
-          return (
-            <>
-              <Button
-                className="hover:bg-gray-100 dark:hover:bg-gray-800"
-                variant="ghost"
-                onClick={() => {
-                  column.toggleSorting(column.getIsSorted() === 'asc')
-                }}
-              >
-                ID
-                <ArrowUpDown className="ml-2 size-4" />
-              </Button>
-            </>
-          )
-        },
-        footer: (props) => props.column.id,
-        invertSorting: true,
-      },
-      {
-        id: 'selecionar',
-        header: ({ table }) => (
-          <div className="flex gap-3 px-1">
-            <IndeterminateCheckbox
-              {...{
-                checked: table.getIsAllRowsSelected(),
-                indeterminate: table.getIsSomeRowsSelected(),
-                onChange: table.getToggleAllRowsSelectedHandler(),
-              }}
-            />
-            <label
-              htmlFor="terms1"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Selecionar
-            </label>
-          </div>
-        ),
-        cell: ({ row }) => (
-          <div className="px-1">
-            <IndeterminateCheckbox
-              {...{
-                checked: row.getIsSelected(),
-                disabled: !row.getCanSelect(),
-                indeterminate: row.getIsSomeSelected(),
-                onChange: row.getToggleSelectedHandler(),
-              }}
-            />
-          </div>
-        ),
-        footer: (props) => props.column.id,
-      },
-      {
-        accessorKey: 'nome',
-        header: ({ column }) => {
-          return (
-            <Button
-              className="hover:bg-gray-100 dark:hover:bg-gray-800"
-              variant="ghost"
-              onClick={() => {
-                column.toggleSorting(column.getIsSorted() === 'asc')
-              }}
-            >
-              Nome
-              <ArrowUpDown className="ml-2 size-4" />
-            </Button>
-          )
-        },
-        footer: (props) => props.column.id,
-      },
-      {
-        accessorKey: 'qtdCredito',
-        header: ({ column }) => {
-          return (
-            <Button
-              className="hover:bg-gray-100 dark:hover:bg-gray-800"
-              variant="ghost"
-              onClick={() => {
-                column.toggleSorting(column.getIsSorted() === 'asc')
-              }}
-            >
-              Qtd.Credito
-              <ArrowUpDown className="ml-2 size-4" />
-            </Button>
-          )
-        },
-        footer: (props) => props.column.id,
-      },
-      {
-        accessorKey: 'observacao',
-        header: ({ column }) => {
-          return (
-            <Button
-              className="hover:bg-gray-100 dark:hover:bg-gray-800"
-              variant="ghost"
-              onClick={() => {
-                column.toggleSorting(column.getIsSorted() === 'asc')
-              }}
-            >
-              Observação
-              <ArrowUpDown className="ml-2 size-4" />
-            </Button>
-          )
-        },
-        footer: (props) => props.column.id,
-      },
-    ],
-    [],
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: SearchParams
+}) {
+  const session = await getServerSession(authOptions)
+  if (!session?.user?.pessoaId) {
+    return <WarningMessageId />
+  }
+  const resultSearch = searchParamsSchema.parse(searchParams)
+  const creditosFolgasPromise = consultaCreditosServidor(
+    session?.user?.pessoaId,
+    'FOLGA',
+    resultSearch,
   )
-
-  // Atualize selectedRows quando as linhas selecionadas mudarem
-  const handleSolicitarFolga = async (selectedRows: {
-    rows: Array<Solicitacao>
-  }) => {
-    // Verifique se pelo menos uma linha foi selecionada
-    if (selectedRows.rows.length === 0) {
-      toast({
-        variant: 'destructive',
-        title: 'Para realizar a solicitação de pecunha',
-        description: 'Por favor, selecione pelomenos um',
-        action: (
-          <ToastAction altText="Goto schedule to undo">fechar</ToastAction>
-        ),
-        duration: 5000,
-      })
-      return
-    }
-    try {
-      setSelectedRows(selectedRows.rows)
-      console.log(selectedRows)
-      toast({
-        title: 'Solicitado com sucesso',
-        action: (
-          <ToastAction altText="Goto schedule to undo">fechar</ToastAction>
-        ),
-        duration: 3000,
-      })
-      router.back()
-    } catch (error) {
-      toast({
-        variant: 'destructive',
-        description: 'Ocorreu um erro na solicitação',
-        action: (
-          <ToastAction altText="Goto schedule to undo">fechar</ToastAction>
-        ),
-        duration: 5000,
-      })
-    }
+  function permissionsMapping(arg0: any): React.ReactNode {
+    throw new Error('Function not implemented.')
   }
 
   return (
-    <>
-      <DataTable
-        columns={columns}
-        data={MOCK_DATA}
-        onSolicitarFolgas={handleSolicitarFolga}
-        selectedRowsmodel={selectedRows}
-      />
-    </>
+    <div className="flex flex-col gap-7 p-6">
+      {permissionsMapping(
+        session?.user?.resourceAccess?.scpc?.roles || undefined,
+      ) || (
+          <>
+            <TitlePage title="Créditos aptos à Folga" />
+
+            <Suspense fallback={<DataTableSkeleton columnCount={3} />}>
+              <Table creditosFolgasPromise={creditosFolgasPromise} />
+            </Suspense>
+          </>
+        )}
+    </div>
   )
 }
+function consultaCreditosServidor(pessoaId: any, arg1: string, resultSearch: any) {
+  throw new Error('Function not implemented.')
+}
+
